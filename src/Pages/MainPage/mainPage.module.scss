@@ -1,0 +1,93 @@
+@import "../../variable.scss";
+
+.mainPageContainer {
+  padding: 32px;
+  .chainContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .channelHeading {
+      font-size: 32px;
+      color: #fff;
+      margin-bottom: 30px;
+      font-weight: 700;
+      line-height: normal;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .headingBorderBottom {
+        margin-top: 8px;
+        width: 60%;
+        height: 2px;
+        background-color: $whiteColor;
+      }
+    }
+    .channels {
+      margin-top: 32px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      .channelItem {
+        margin: 0 8px;
+        .channelLogoContainer {
+          border-radius: 50%;
+          padding: 12px;
+          background-color: $whiteColor;
+        }
+        .otherChannel {
+          background-color: $secondaryChannelbackgroundColor;
+        }
+        .chanelName {
+          margin: 12px 0;
+          color: $whiteColor;
+          font-size: 24px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    }
+  }
+  .contractUploadFormContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin: 32px 160px;
+    .contractUploadItem {
+      width: 100%;
+      background-color: $contractItemBackgroundColor;
+      color: $whiteColor;
+      padding: 16px 24px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      .contractHeading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .contractName {
+          font-size: 24px;
+          font-weight: 600;
+        }
+        .contractIcon {
+          cursor: pointer;
+          height: 60px;
+        }
+      }
+    }
+    .deployBtn {
+      margin: 32px 0;
+      background-image: linear-gradient(25deg, #2904fa, #fd03e8);
+      color: $whiteColor;
+      font-size: 24px;
+      display: inline-block;
+      border-radius: 5px;
+      transition: 0.5s;
+      font-weight: 500;
+      border: none;
+    }
+  }
+}

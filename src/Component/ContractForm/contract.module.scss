@@ -1,0 +1,33 @@
+@import "../../variable.scss";
+
+.ContractFormContainer {
+  animation: accordionIn 0.7s;
+  padding: 16px 64px;
+  display: flex;
+  flex-direction: column;
+  .inputItem {
+    .inputLabel {
+      font-weight: 700;
+      font-size: 20px;
+      padding: 24px;
+    }
+    .saltinput {
+      height: 32px;
+      font-size: 24px;
+    }
+    .byteCodeInput {
+      font-family: inherit;
+    }
+  }
+}
+
+@keyframes accordionIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
