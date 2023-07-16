@@ -12,6 +12,9 @@ import minus from "../../Image/icon/minus.svg";
 import style from "./mainPage.module.scss";
 import globalStyle from "../../global.module.scss";
 import ContractForm from "../../Component/ContractForm/ContractForm";
+import { authenticateAPI } from "../../API/api";
+import { apiList } from "../../API/apiList";
+import ModalPopup from "../../Component/ModalPopup/ModalPopup";
 
 const intialChannelState = [
   {
@@ -58,8 +61,10 @@ const intialChannelState = [
   },
 ];
 
-const MainPage = () => {
+const MainPage = ({ setBlur }) => {
   const [openChannel, setOpenChannel] = useState([...intialChannelState]);
+  const [openModal, setOpenModal] = useState(false);
+  const [validationErr, setValidationErr] = useState(false);
 
   const onChangeParent = (data) => {
     const { dataOf, inputName, value } = data;
@@ -71,8 +76,33 @@ const MainPage = () => {
 
     setOpenChannel([...openChannel]);
   };
+
+  const submitContract = () => {
+    const payload = {
+      url: apiList.uploadContract,
+      method: "post",
+      data: openChannel,
+    };
+    authenticateAPI({ ...payload });
+  };
+
+  const checkValidation = () => {
+    const flag = openChannel.filter((f) => {
+      if (
+        (f.byteCode !== "" && f.saltValue === "") ||
+        (f.saltValue !== "" && f.byteCode === "")
+      ) {
+        return true;
+      }
+    });
+    console.log(flag.length != 0);
+    return flag.length === 0;
+  };
+
   return (
-    <div className={style.mainPageContainer}>
+    <div
+      className={`${style.mainPageContainer} ${openModal && style.noScroll}`}
+    >
       <div className={style.contractUploadFormContainer}>
         {openChannel.map((m, i) => (
           <div className={style.contractUploadItem} key={i}>
@@ -94,9 +124,20 @@ const MainPage = () => {
             )}
           </div>
         ))}
+        {validationErr && (
+          <div className={style.validationMessage}>Contract is invalid</div>
+        )}
         <button
           className={`${globalStyle.btn} ${style.deployBtn}`}
-          onClick={() => console.log(openChannel)}
+          onClick={() => {
+            if (checkValidation()) {
+              window.scroll(0, 0);
+              setOpenModal(true);
+              setBlur(!openModal);
+            } else {
+              setValidationErr(true);
+            }
+          }}
         >
           Deploy
         </button>
@@ -155,6 +196,7 @@ const MainPage = () => {
           </div>
         </div>
       </div>
+      {openModal && <ModalPopup closePopup={() => setOpenModal(false)} />}
     </div>
   );
 };

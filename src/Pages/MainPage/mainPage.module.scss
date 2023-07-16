@@ -78,6 +78,10 @@
         }
       }
     }
+    .validationMessage {
+      font-size: 24px;
+      color: red;
+    }
     .deployBtn {
       margin: 32px 0;
       background-image: linear-gradient(25deg, #2904fa, #fd03e8);
@@ -88,6 +92,11 @@
       transition: 0.5s;
       font-weight: 500;
       border: none;
+      width: 350px;
     }
   }
+}
+.noScroll {
+  // overflow-x: hidden;
+  overflow: hidden;
 }
