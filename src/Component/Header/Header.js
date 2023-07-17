@@ -1,10 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import connectIcon from "../../Image/icon/plug.png";
+import contract from "../../Image/icon/agreement.png";
 
 import style from "./header.module.scss";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <div className={style.parentHeaderContainer}>
       <div className={style.headerContainer}>
@@ -14,6 +18,14 @@ const Header = () => {
           </div>
         </div>
         <div className={style.secondaryContainer}>
+          <div className={style.contractView}>
+            <img
+              onClick={() => navigate("/contract")}
+              className={style.contractLogo}
+              alt=""
+              src={contract}
+            />
+          </div>
           <div className={style.connectWalletContainer}>
             Connect
             <span>

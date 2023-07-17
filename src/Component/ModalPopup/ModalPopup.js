@@ -5,7 +5,7 @@ import closeIcon from "../../Image/icon/cross.png";
 import style from "./modalPopup.module.scss";
 import globalStyle from "../../global.module.scss";
 
-const ModalPopup = ({ closePopup }) => {
+const ModalPopup = ({ closePopup, setUserIdData, submitContract }) => {
   return (
     <div className={style.backgroundModalContainer}>
       <div className={style.parentModalPopUp}>
@@ -25,11 +25,7 @@ const ModalPopup = ({ closePopup }) => {
                 className={` ${style.saltinput}`}
                 type="text"
                 onChange={(e) => {
-                  //   const sendData = {
-                  //     inputName: "saltValue",
-                  //     value: e.target.value,
-                  //   };
-                  //   onChangeProps(sendData);
+                  setUserIdData(e.target.value);
                 }}
               />
             </div>
@@ -41,7 +37,10 @@ const ModalPopup = ({ closePopup }) => {
             >
               Cancle
             </button>
-            <button className={`${globalStyle.btn} ${style.deployBtn}`}>
+            <button
+              onClick={submitContract}
+              className={`${globalStyle.btn} ${style.deployBtn}`}
+            >
               Deploy
             </button>
           </div>

@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
+import ContractForm from "../../Component/ContractForm/ContractForm";
+import { authenticateAPI } from "../../API/api";
+import { apiList } from "../../API/apiList";
+import ModalPopup from "../../Component/ModalPopup/ModalPopup";
 import Mainnet from "../../Image/icon/mainnet.svg";
 import Goreli from "../../Image/icon/goreli.svg";
 import Optimisim from "../../Image/icon/optimisim.svg";
@@ -8,13 +12,10 @@ import ArbitrumOne from "../../Image/icon/arbitrumOne.svg";
 import BnbSmartChain from "../../Image/icon/bnbSmartChain.svg";
 import plus from "../../Image/icon/plus.svg";
 import minus from "../../Image/icon/minus.svg";
+import documentCompleted from "../../Image/icon/documentCompleted.png";
 
 import style from "./mainPage.module.scss";
 import globalStyle from "../../global.module.scss";
-import ContractForm from "../../Component/ContractForm/ContractForm";
-import { authenticateAPI } from "../../API/api";
-import { apiList } from "../../API/apiList";
-import ModalPopup from "../../Component/ModalPopup/ModalPopup";
 
 const intialChannelState = [
   {
@@ -65,6 +66,7 @@ const MainPage = ({ setBlur }) => {
   const [openChannel, setOpenChannel] = useState([...intialChannelState]);
   const [openModal, setOpenModal] = useState(false);
   const [validationErr, setValidationErr] = useState(false);
+  const [userId, setUserId] = useState("");
 
   const onChangeParent = (data) => {
     const { dataOf, inputName, value } = data;
@@ -78,10 +80,18 @@ const MainPage = ({ setBlur }) => {
   };
 
   const submitContract = () => {
+    const channelData = openChannel
+      .filter((f) => f.byteCode != "" && f.saltValue != "")
+      .map((m) => {
+        const { open, ...restProps } = m;
+        return {
+          ...restProps,
+        };
+      });
     const payload = {
       url: apiList.uploadContract,
       method: "post",
-      data: openChannel,
+      data: { userId, channelData },
     };
     authenticateAPI({ ...payload });
   };
@@ -95,9 +105,10 @@ const MainPage = ({ setBlur }) => {
         return true;
       }
     });
-    console.log(flag.length != 0);
     return flag.length === 0;
   };
+
+  console.log(userId);
 
   return (
     <div
@@ -108,16 +119,26 @@ const MainPage = ({ setBlur }) => {
           <div className={style.contractUploadItem} key={i}>
             <div className={style.contractHeading}>
               <div className={style.contractName}>{m.name}</div>
-              <img
-                onClick={() => {
-                  openChannel[i].open = !m.open;
-                  console.log(openChannel);
-                  setOpenChannel([...openChannel]);
-                }}
-                className={style.contractIcon}
-                src={openChannel[i].open ? minus : plus}
-                alt=""
-              />
+              <div>
+                {!openChannel[i].open &&
+                  openChannel[i].byteCode != "" &&
+                  openChannel[i].saltValue != "" && (
+                    <img
+                      className={style.contractIcon}
+                      src={documentCompleted}
+                    />
+                  )}
+                <img
+                  onClick={() => {
+                    openChannel[i].open = !m.open;
+                    console.log(openChannel);
+                    setOpenChannel([...openChannel]);
+                  }}
+                  className={style.contractIcon}
+                  src={openChannel[i].open ? minus : plus}
+                  alt=""
+                />
+              </div>
             </div>
             {openChannel[i].open && (
               <ContractForm onChangeProps={onChangeParent} dataOf={i} />
@@ -196,7 +217,13 @@ const MainPage = ({ setBlur }) => {
           </div>
         </div>
       </div>
-      {openModal && <ModalPopup closePopup={() => setOpenModal(false)} />}
+      {openModal && (
+        <ModalPopup
+          setUserIdData={(idData) => setUserId(idData)}
+          closePopup={() => setOpenModal(false)}
+          submitContract={submitContract}
+        />
+      )}
     </div>
   );
 };

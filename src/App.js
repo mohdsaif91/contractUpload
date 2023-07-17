@@ -1,21 +1,21 @@
-import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 
 import Footer from "./Component/Footer/Footer";
 import Header from "./Component/Header/Header";
 import MainPage from "./Pages/MainPage/MainPage";
-
-import style from "./global.module.scss";
+import Contract from "./Pages/Contract/Contract";
 
 function App() {
-  const [blur, setBlur] = useState(false);
-
   return (
     <div>
       <header>
         <Header />
       </header>
       <div className="mainContainer">
-        <MainPage setBlur={setBlur} />
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/contract" element={<Contract />} />
+        </Routes>
       </div>
       <Footer />
     </div>

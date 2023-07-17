@@ -18,6 +18,16 @@
       font-weight: 700;
     }
     .secondaryContainer {
+      display: flex;
+      align-items: center;
+      .contractView {
+        margin-right: 16px;
+        .contractLogo {
+          height: 32px;
+          padding: 0 8px;
+          cursor: pointer;
+        }
+      }
       .connectWalletContainer {
         background-image: linear-gradient(50deg, #2904fa, #fd03e8);
         color: #fff;
